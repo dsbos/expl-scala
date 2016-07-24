@@ -1,0 +1,72 @@
+# (gitignore notes:
+# - .gitignore files can be in multiple directories
+#   - patterns evaluate relative to file
+# - (user-specific settings can go in file via ~/.gitconfig)
+
+# - pattern ending with slash matches only directory??directories
+# - pattern not containing slash is treated as shell glob pattern
+# - leading slash anchors to first pathname segment
+
+# - "foo/" matches directories, but not files ".../foo
+# )
+
+
+# from Maven:
+target
+
+# from Editors (backup files):
+# - Emacs:
+*~
+
+# from IDEs:
+# - IntelliJ:
+/.idea/
+/*.iml
+# - Eclipse:
+/.classpath
+/.project
+/.settings/
+
+
+# From some Maven archetype:generate template:
+#
+#	# use glob syntax.
+#	syntax: glob
+#	*.ser
+#	*.class
+#	*~
+#	*.bak
+#	#*.off
+#	*.old
+#
+#	# eclipse conf file
+#	.settings
+#	.classpath
+#	.project
+#	.manager
+#	.scala_dependencies
+#
+#	# idea
+#	.idea
+#	*.iml
+#
+#	# building
+#	build
+#	null
+#	tmp*
+#	temp*
+#	dist
+#	test-output
+#	build.log
+#
+#	# other scm
+#	.svn
+#	.CVS
+#	.hg*
+#
+#	# switch to regexp syntax.
+#	#  syntax: regexp
+#	#  ^\.pc/
+#
+#	#SHITTY output not in target directory
+#	build.log
