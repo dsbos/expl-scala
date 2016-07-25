@@ -1,13 +1,18 @@
 # (gitignore notes:
 # - .gitignore files can be in multiple directories
-#   - patterns evaluate relative to file
+#   - patterns evaluates relative to .gitignore file
 # - (user-specific settings can go in file via ~/.gitconfig)
-
-# - pattern ending with slash matches only directory??directories
-# - pattern not containing slash is treated as shell glob pattern
-# - leading slash anchors to first pathname segment
-
-# - "foo/" matches directories, but not files ".../foo
+# - ?
+#   - leading slash anchors to first pathname segment (rel. to .gitignore)
+#   - trailing slash limits to matching directories
+#   - "**" segment matches zero or more directories (and files if no end slash) (roughly?)
+#     - (What about a/b**c/d?
+# - seemingly:
+#   - pattern not containing any non-trailing slash is treated shell glob
+#     pattern matching at _any_ level
+#   - pattern containing non-trailing slash is treated as shell glob
+#     pattern matching only from top level (rel. to .gitignore)
+# - "!" negates ...
 # )
 
 

@@ -1,9 +1,9 @@
-package com.us.dsb.explore
+package com.us.dsb.explore.tags
 
 import scala.reflect.runtime.universe._
 import scala.reflect.ClassTag
 
-object App {
+object ExploreTypeTags {
 
   class GeneralThing
   case class SpecificThingOne() extends GeneralThing
@@ -14,13 +14,18 @@ object App {
   val things: List[GeneralThing] = List(SpecificThingOne(), SpecificThingTwo())
 
   import System.err.println
-  def getThingViaTags[C <: GeneralThing](implicit classTag: ClassTag[C], typeTag: TypeTag[C]): Option[C] = {
+  def getThingViaTags[C <: GeneralThing](implicit classTag: ClassTag[C],
+                                                  typeTag: TypeTag[C]): Option[C] = {
     println()
     println(s"classTag = $classTag (${classTag.getClass})")
     println(s"typeTag = $typeTag (${typeTag.getClass})")
     println(s"classTag.runtimeClass = $classTag.runtimeClass (${classTag.runtimeClass.getClass})")
     println(s"typeTag.tpe = $typeTag.tpe (${typeTag.tpe.getClass})")
 
+    //val x1 = implicitly
+    //val x2 = implicitly[TypeTag[_]]
+    //val x2b = implicitly[TypeTag[C]]
+    //val x3 = implicitly[C]
     val mirror = typeTag.mirror
     //println("typeTag.mirror = " + mirror)
 
@@ -59,7 +64,7 @@ object App {
     println("v1 = " + v1)
 
     // Not as expected/wanted, passed tags are for Nothing:
-    val v2 = Option[SpecificThingOne] = getThingViaTags
+    val v2: Option[SpecificThingOne] = getThingViaTags
     println("v2 = " + v2)
     // Why is getThingViaTags's C inferred to be type Nothing?
     // Does type inference ever propagate the declared type _from_ a type
