@@ -1,9 +1,9 @@
-package com.us.dsb.explore.tags
+package com.us.dsb.explore.types.inference
 
-import scala.reflect.runtime.universe._
 import scala.reflect.ClassTag
+import scala.reflect.runtime.universe._
 
-object ExploreTypeTags {
+object ExploreTypeTagsAppl {
 
   class GeneralThing
   case class SpecificThingOne() extends GeneralThing

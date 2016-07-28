@@ -1,8 +1,8 @@
-package com.us.dsb.explore.tags
+package com.us.dsb.explore.types.inference
 
 import scala.reflect.ClassTag
 
-object TryInferringFromContext {
+object TryInferringFromContextAppl {
 
   class GeneralThing
   case class SpecificThingOne() extends GeneralThing
