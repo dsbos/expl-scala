@@ -4,7 +4,7 @@ import org.scalatest.FunSuite
 import org.scalatest.Matchers._
 
 
-class TaggedValueTypesExplorationTest extends FunSuite {
+class ManualTaggedTypesExplorationTest extends FunSuite {
 
   test("Tagged ...") {
     type Tagged[U] = { type Tag = U }
@@ -43,23 +43,26 @@ class TaggedValueTypesExplorationTest extends FunSuite {
 
     // For reducing ".asInstanceOf[...]" syntax:
 
-    class Tagger[U] {
+    class Taggerxx[U] {
       def apply[T](t : T) : T @@ U = t.asInstanceOf[T @@ U]
     }
-    def tag[U] = new Tagger[U]
+    def tagxx[U] = new Taggerxx[U]
 
-    val b5 = tag[TypeB](6)
-    val b6: TypeBInt = b5
-    val b7: Int @@ TypeB = b5
+    val b5xx = tagxx[TypeB](6)
+    val b6xx: TypeBInt = b5xx
+    val b7xx: Int @@ TypeB = b5xx
     //??? Why not?  Is like b6 = expression from b5.   (Says found Int(6), required: Int.):
     //val b8: TypeBInt = tag[TypeB](6)
 
 
-    def tag1[Repr, T](a: Repr): Repr @@ T = a.asInstanceOf[Repr @@ T]
+    def tag1xx[Reprxx, Txx](bxx: Reprxx): Reprxx @@ Txx = bxx.asInstanceOf[Reprxx @@ Txx]
 
     //???? val b10: TypeBInt = tag1(4)
 
    // val b6: TypeBInt = tag1[TypeAInt](4)
+
+
+    // ???? Look into scalaz verstino
 
   }
 
