@@ -35,7 +35,7 @@ class ContextInferredClasstagDemoTest extends FunSuite {
     v2 shouldEqual "SubthingTwo"
   }
 
-  test("Demo failure with standard ClassTag") {
+  test("Demo failure with standard ClassTag.") {
 
     def getPerTag[C <: BaseThing](implicit classTag: StandardClassTag[C]): (C, String) = {
       (null.asInstanceOf[C], classTag.runtimeClass.getSimpleName)
