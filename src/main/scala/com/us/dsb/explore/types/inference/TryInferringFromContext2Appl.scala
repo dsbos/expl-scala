@@ -1,5 +1,7 @@
 package com.us.dsb.explore.types.inference
 
+import scala.annotation.implicitNotFound
+
 //import scala.reflect.ClassTag
 
 object TryInferringFromContext2Appl {
@@ -17,7 +19,21 @@ object TryInferringFromContext2Appl {
 
   import System.err.{println => println}
 
-  def getThingViaTag[C <: BaseThing](implicit classTag: ClassTag[C]): Option[C] = {
+
+  @implicitNotFound("NotNothing: Sorry, type inference was unable to figure out the type. You need to provide it explicitly.")
+  trait NotNothing[T]
+
+  object NotNothing {
+    private val evidence: NotNothing[Any] = new Object with NotNothing[Any]
+
+    implicit def notNothingEv[T](implicit n: T =:= T): NotNothing[T] =
+      evidence.asInstanceOf[NotNothing[T]]
+  }
+  import NotNothing._
+
+
+
+  def getThingViaTag[C <: BaseThing](implicit classTag: ClassTag[C]/*????, notNothing: NotNothing[C]*/): Option[C] = {
     val requestedClass = classTag.runtimeClass
     println(s"requestedClass: ${requestedClass.getSimpleName}")
     val anyFirstMatch = things.filter(obj => requestedClass.isInstance(obj)).headOption
@@ -42,7 +58,8 @@ object TryInferringFromContext2Appl {
     val v4 = takesSpecificType(getThingViaTag)
 
     println("5:")
-    //val v5: SubthingOne = getThingViaTag.get      // Infers C = Nothing
+    // Infers C = Nothing.  (Error not caught until run-time.)
+    //val v5: SubthingOne = getThingViaTag.get
 
   }
 
