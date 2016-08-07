@@ -1,11 +1,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <!-- Note: Some content is default from archetype used to create this.  -->
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.us.dsb</groupId>
   <artifactId>expl-scala</artifactId>
   <version>1.0-SNAPSHOT</version>
   <name>${project.artifactId}</name>
-  <description>My wonderfull scala app</description>
-  <inceptionYear>2015</inceptionYear>
+  <description>Scala exploration "project"</description>
+  <inceptionYear>2016</inceptionYear>
   <licenses>
     <license>
       <name>My License</name>
@@ -15,8 +16,8 @@
   </licenses>
 
   <properties>
-    <maven.compiler.source>1.6</maven.compiler.source>
-    <maven.compiler.target>1.6</maven.compiler.target>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
     <encoding>UTF-8</encoding>
     <scala.version>2.11.8</scala.version>
     <scala.compat.version>2.11</scala.compat.version>
@@ -33,7 +34,11 @@
       <artifactId>scala-reflect</artifactId>
       <version>${scala.version}</version>
     </dependency>
-
+    <dependency>
+      <groupId>org.scalaz</groupId>
+      <artifactId>scalaz-core_${scala.compat.version}</artifactId>
+      <version>7.1.0</version>
+    </dependency>
     <!-- Test -->
     <dependency>
       <groupId>junit</groupId>
@@ -53,7 +58,6 @@
       <version>2.2.4</version>
       <scope>test</scope>
     </dependency>
-
     <dependency>
       <groupId>org.specs2</groupId>
       <artifactId>specs2-junit_${scala.compat.version}</artifactId>
