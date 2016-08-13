@@ -33,7 +33,7 @@ class PrerequisiteTraitDemoTest extends FunSuite {
   // "type mismatch; found   : ...DoesntHaveRequiredTrait
   //                 required: ...RequiredTrait"
 
-  (null: HasRequiredTraitAlready): RequiredTrait       // (compiles)
+  val x = (null: HasRequiredTraitAlready): RequiredTrait       // (compiles)
 
 
   // 1. Show that mixing in RequiringTrait1 does NOT actually require that a
@@ -42,7 +42,7 @@ class PrerequisiteTraitDemoTest extends FunSuite {
   // expected):
   test("Demo a requiring trait that also adds the required trait.") {
     class AddsRequiredTrait extends RequiringTrait1
-    (null: AddsRequiredTrait): RequiredTrait
+    val x = (null: AddsRequiredTrait): RequiredTrait
   }
 
   // 2. Show that mixing in RequiringTrait2 DOES require that a class mixing
@@ -58,7 +58,7 @@ class PrerequisiteTraitDemoTest extends FunSuite {
 
     // declaraing class with RequiringTrait2 but with RequiredTrait works:
     class HasRequiredTraitOtherwise extends RequiredTrait with RequiringTrait2
-    (null: HasRequiredTraitOtherwise): RequiredTrait
+    val x1 = (null: HasRequiredTraitOtherwise): RequiredTrait
 
 
     // TODO:  To be explored further:  Somewhat unexpectedly, the required trait
@@ -67,7 +67,7 @@ class PrerequisiteTraitDemoTest extends FunSuite {
     // constructor and method call order?)
 
     class ListsRequiredAfterRequiring extends RequiringTrait2 with RequiredTrait
-    (null: ListsRequiredAfterRequiring): RequiredTrait
+    val x2 = (null: ListsRequiredAfterRequiring): RequiredTrait
   }
 
 }
