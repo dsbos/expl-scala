@@ -3,6 +3,7 @@ package com.us.dsb.explore.types.inference
 import scala.reflect.ClassTag
 import scala.reflect.runtime.universe._
 
+
 object TypeTagsExplApp {
 
   class GeneralThing

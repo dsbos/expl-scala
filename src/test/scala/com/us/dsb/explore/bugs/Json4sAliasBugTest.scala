@@ -4,6 +4,7 @@ import org.json4s.DefaultFormats
 import org.json4s.Extraction.decompose
 import org.scalatest.FunSuite
 
+
 /**
  * Test case for Json4s "Bug: Extraction's reflection breaks on type aliases
  * (loops endlessly or throws)" (https://github.com/json4s/json4s/issues/397).
