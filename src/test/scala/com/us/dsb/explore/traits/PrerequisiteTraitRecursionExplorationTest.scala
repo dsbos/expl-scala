@@ -70,7 +70,7 @@ class PrerequisiteTraitRecursionExplorationTest extends FunSuite {
 
     // ...
 
-    {
+    if (false) {
       val x1 = new ClientClass12
       println("method1( 1) = " + x1.method1( 1))
       println("method1( 0) = " + x1.method1( 0))
@@ -81,7 +81,7 @@ class PrerequisiteTraitRecursionExplorationTest extends FunSuite {
       println
     }
 
-    {
+    if (false) {
       val x1 = new ClientClass2ModA
       println("method1( 1) = " + x1.method1( 1))
       println("method1( 0) = " + x1.method1( 0))
@@ -93,7 +93,7 @@ class PrerequisiteTraitRecursionExplorationTest extends FunSuite {
     }
 
 
-    {
+    if (false) {
       val x1 = new ClientClass1And2ModB
       println("method1( 1) = " + x1.method1( 1))
       println("method1( 0) = " + x1.method1( 0))
