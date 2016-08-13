@@ -22,7 +22,11 @@ class Json4sAliasBugTest extends FunSuite {
 
   test("Bug case: expect endless loop or 'MappingException: Unexpected type" +
        " info TypeRefType...' (for <3.4.0 or 3.4.0, respectively).") {
-    val j = decompose(new C1(List()))
+    val e = intercept[org.json4s.MappingException] {
+      val j = decompose(new C1(List()))
+    }
+    //println("e: " )
+    //e.printStackTrace()
   }
 
   test("A working case.") {
