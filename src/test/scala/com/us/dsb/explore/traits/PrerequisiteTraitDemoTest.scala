@@ -56,7 +56,7 @@ class PrerequisiteTraitDemoTest extends FunSuite {
     // conform to ...RequiringTrait2's selftype ...RequiringTrait2 with
     // ...RequiredTrait"
 
-    // declaraing class with RequiringTrait2 but with RequiredTrait works:
+    // declaring class with RequiringTrait2 but with RequiredTrait works:
     class HasRequiredTraitOtherwise extends RequiredTrait with RequiringTrait2
     val x1 = (null: HasRequiredTraitOtherwise): RequiredTrait
 
