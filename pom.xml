@@ -19,8 +19,16 @@
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
     <encoding>UTF-8</encoding>
+    <!--
+    <scala.version>2.10.4</scala.version>
+    <scala.compat.version>2.10</scala.compat.version>
+    -->
     <scala.version>2.11.8</scala.version>
     <scala.compat.version>2.11</scala.compat.version>
+    <!--
+    <json4s.version>3.2.10</json4s.version>
+    -->
+    <json4s.version>3.4.0</json4s.version>
   </properties>
 
   <dependencies>
@@ -65,6 +73,28 @@
       <scope>test</scope>
     </dependency>
 
+    <dependency>
+      <groupId>org.json4s</groupId>
+      <artifactId>json4s-core_${scala.compat.version}</artifactId>
+      <version>${json4s.version}</version>
+    </dependency>
+    <!--
+    <dependency>
+      <groupId>org.json4s</groupId>
+      <artifactId>json4s-native_${scala.compat.version}</artifactId>
+      <version>${json4s.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.json4s</groupId>
+      <artifactId>json4s-jackson_${scala.compat.version}</artifactId>
+      <version>${json4s.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.json4s</groupId>
+      <artifactId>json4s-ast_${scala.compat.version}</artifactId>
+      <version>${json4s.version}</version>
+    </dependency>
+    -->
 
   </dependencies>
 
