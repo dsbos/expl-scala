@@ -74,27 +74,33 @@
     </dependency>
 
     <dependency>
+      <!-- org.json4s.* (308),
+           org.json4s.prefs (7),
+           org.json4s.reflect (111)
+           -->
       <groupId>org.json4s</groupId>
       <artifactId>json4s-core_${scala.compat.version}</artifactId>
       <version>${json4s.version}</version>
     </dependency>
-    <!--
+
     <dependency>
+      <!-- org.json4s.* (371)  -->
+      <groupId>org.json4s</groupId>
+      <artifactId>json4s-ast_${scala.compat.version}</artifactId>
+      <version>${json4s.version}</version>
+    </dependency>
+    <dependency>
+      <!-- org.json4s.native.* (49)-->
       <groupId>org.json4s</groupId>
       <artifactId>json4s-native_${scala.compat.version}</artifactId>
       <version>${json4s.version}</version>
     </dependency>
     <dependency>
+      <!-- org.json4s.jackson.* (28) -->
       <groupId>org.json4s</groupId>
       <artifactId>json4s-jackson_${scala.compat.version}</artifactId>
       <version>${json4s.version}</version>
     </dependency>
-    <dependency>
-      <groupId>org.json4s</groupId>
-      <artifactId>json4s-ast_${scala.compat.version}</artifactId>
-      <version>${json4s.version}</version>
-    </dependency>
-    -->
 
   </dependencies>
 
