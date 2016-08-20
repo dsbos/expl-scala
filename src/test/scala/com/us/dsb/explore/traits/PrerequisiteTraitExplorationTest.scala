@@ -92,11 +92,11 @@ class PrerequisiteTraitExplorationTest extends FunSuite {
 
       override def requiringMethod() = {
         try {
-          //println("+ ClientClass1 . requiringMethod")
+          println("+ ClientClass1 . requiringMethod")
           super.requiringMethod() + " - " + "ClientClass1.super.requiringMethod"
         }
         finally {
-          //println("- ClientClass1 . requiringMethod")
+          println("- ClientClass1 . requiringMethod")
         }
       }
     }
@@ -137,7 +137,7 @@ class PrerequisiteTraitExplorationTest extends FunSuite {
     //val x12 = new ClientClass2
     val x21 = x11.requiringMethod
     //val x22 = x12.method
-    //println("x21 = " + x21)
+    println("x21 = " + x21)
     //println("x22 = " + x22)
   }
 
