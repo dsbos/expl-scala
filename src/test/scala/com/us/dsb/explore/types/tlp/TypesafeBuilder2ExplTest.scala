@@ -2,13 +2,14 @@ package com.us.dsb.explore.types.tlp
 
 import org.scalatest.FunSuite
 import org.scalatest.Matchers._
+
 import scala.language.higherKinds
 
 
 /**
-  * Type-level example:  Type-safe range builder - just start and end.
+  * Type-level example:  Type-safe range builder - start and (value-level end or length).
   */
-class TypesafeBuilder1ExplTest extends FunSuite {
+class TypesafeBuilder2ExplTest extends FunSuite {
 
 
   //////////
@@ -84,15 +85,15 @@ class TypesafeBuilder1ExplTest extends FunSuite {
   // Type-level class(type?) for state of builder.
   sealed trait BuilderState {
     type IsStartSet <: BoolType
-    type IsEndSet <: BoolType
+    type IsLengthOrEndSet <: BoolType
   }
 
 
   // Type-safe (value-level) builder - main (non-factory) part:
 
   case class RangeBuilder[S <: BuilderState] private (start:  Option[Double] = None,
-                                                      end:    Option[Double] = None/*,
-                                                      length: Option[Double] = None*/) {
+                                                      end:    Option[Double] = None,
+                                                      length: Option[Double] = None) {
     // (Can set start iff not already set.)
     def withStart(start: Double)(implicit state: S#IsStartSet =:= BoolFalse): RangeBuilder[S {type IsStartSet = BoolTrue}] = {
       // (Don't need to check at value level whether start is already set.)
@@ -101,27 +102,22 @@ class TypesafeBuilder1ExplTest extends FunSuite {
     }
 
     // (Can set end iff not already set.)
-    def withEnd(end: Double)(implicit state: S#IsEndSet =:= BoolFalse): RangeBuilder[S {type IsEndSet = BoolTrue}] = {
+    def withEnd(end: Double)(implicit state: S#IsLengthOrEndSet =:= BoolFalse): RangeBuilder[S {type IsLengthOrEndSet = BoolTrue}] = {
       // (Don't need to check at value level whether end is already set.)
       // (also set third if first is already set)
       this.copy(end = Some(end))
     }
 
-    /*def withLength(length: Double): RangeBuilder = {
+    def withLength(length: Double)(implicit state: S#IsLengthOrEndSet =:= BoolFalse): RangeBuilder[S {type IsLengthOrEndSet = BoolTrue}] = {
       // (check if length already set (explicitly))
       // (also set third if first is already set)
       this.copy(length = Some(length))
-    }*/
+    }
 
-    // (Can build iff both start and end are set.)
-    def build()(implicit state: S#IsStartSet && S#IsEndSet =:= BoolTrue): Range = {
-      // (Don't need to check at value level whether start and end are already set.)
-
-      /*val builder1 = start.fold(this.copy(start = Some(end.get - length.get)))(ignored => this)
-      val builder2 = length.fold(builder1.copy(length = Some(end.get - start.get)))(ignored => builder1)
-      */val builder3 = this/*end.fold(builder2.copy(end = Some(start.get + length.get)))(ignored => builder2)*/
-
-      Range(builder3.start.get, builder3.end.get/*, builder3.length.get*/)
+    // (Can build iff both start and (end or length) are set.)
+    def build()(implicit state: S#IsStartSet && S#IsLengthOrEndSet =:= BoolTrue): Range = {
+      val netEnd = end.getOrElse(start.get + length.get)
+      Range(start.get, netEnd)
     }
   }
 
@@ -136,7 +132,7 @@ class TypesafeBuilder1ExplTest extends FunSuite {
         // set to type-level boolean values:
         BuilderState {
           type IsStartSet = BoolFalse
-          type IsEndSet = BoolFalse
+          type IsLengthOrEndSet = BoolFalse
         }
         ]
   }
@@ -151,23 +147,24 @@ class TypesafeBuilder1ExplTest extends FunSuite {
     assert(((1.0, 9.0, 10.0)) == ((r1.start, r1.length, r1.end)))
   }
 
-  /*test("Test good: given start and length") {
+  test("Test good: given start and length") {
     val r1 = RangeBuilder().withStart(1.0).withLength(9.0).build
     assert(((1.0, 9.0, 10.0)) == ((r1.start, r1.length, r1.end)))
   }
   test("Test good: given length and THEN start") {
     val r1 = RangeBuilder().withLength(9.0).withStart(1.0).build
     assert(((1.0, 9.0, 10.0)) == ((r1.start, r1.length, r1.end)))
-  }*/
-
-  /*test("Test good: given length and end") {
-    val r1 = RangeBuilder().withLength(9.0).withEnd(10.0).build
-    assert(((1.0, 9.0, 10.0)) == ((r1.start, r1.length, r1.end)))
   }
-  test("Test good: given end and THEN length") {
-    val r1 = RangeBuilder().withEnd(10.0).withLength(9.0).build
-    assert(((1.0, 9.0, 10.0)) == ((r1.start, r1.length, r1.end)))
-  }*/
+
+  test("Test bad: given length and end and no start") {
+    assertTypeError("RangeBuilder().withLength(9.0).withEnd(10.0).build")
+  }
+  test("Test bad: given both end and length (no start)") {
+    assertTypeError("RangeBuilder().withEnd(10.0).withLength(9.0).build")
+  }
+  test("Test bad: given both end and length (and start)") {
+    assertTypeError("RangeBuilder().withStart(1).withEnd(10.0).withLength(9.0).build")
+  }
 
   test("Test bad: given nothing") {
      assertTypeError("RangeBuilder().build")
@@ -176,11 +173,9 @@ class TypesafeBuilder1ExplTest extends FunSuite {
   test("Test bad: given only start") {
     assertTypeError("RangeBuilder().withStart(1.0).build")
   }
-  /*test("Test bad: given only length") {
-    assertThrows[NoSuchElementException] {  // (current, crude behavior)
-      val r1 = RangeBuilder().withLength(9.0).build
-    }
-  }*/
+  test("Test bad: given only length") {
+    assertTypeError("RangeBuilder().withLength(9.0).build")
+  }
   test("Test bad: given only end") {
     assertTypeError("RangeBuilder().withEnd(10.0).build")
   }
