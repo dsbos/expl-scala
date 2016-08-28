@@ -7,7 +7,7 @@ import scala.language.higherKinds
 
 
 /**
-  * Type-level example:  Type-safe range builder - start and ((type-level) end or length).
+  * Type-level example:  Type-safe range builder 3 - start and ((type-level) end or length).
   */
 class TypesafeBuilder3ExplTest extends FunSuite {
 
@@ -116,7 +116,7 @@ class TypesafeBuilder3ExplTest extends FunSuite {
     }
 
     // (Can build iff both start and (end or length) are set.)
-    def build()(implicit state: S#IsStartSet && (S#IsLengthSet || S#IsEndSet )=:= BoolTrue): Range = {
+    def build()(implicit state: S#IsStartSet && (S#IsLengthSet || S#IsEndSet) =:= BoolTrue): Range = {
       val netEnd = end.getOrElse(start.get + length.get)
       Range(start.get, netEnd)
     }

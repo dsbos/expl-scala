@@ -6,7 +6,7 @@ import scala.language.higherKinds
 
 
 /**
-  * Type-level example:  Type-safe range builder - just start and end.
+  * Type-level example:  Type-safe range builder 1 - just start and end.
   */
 class TypesafeBuilder1ExplTest extends FunSuite {
 
