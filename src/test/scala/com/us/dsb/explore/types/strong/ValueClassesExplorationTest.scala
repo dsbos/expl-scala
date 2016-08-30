@@ -8,105 +8,78 @@ import org.scalatest.Matchers._
 
 object ValueClassesExplorationTest {
 
-  case class PoiId(val value: Int) extends AnyVal
+  case class PoiId(value: Int) extends AnyVal
 
-  case class SpNumber(val value: Int) extends AnyVal
+  case class SpNumber(value: Int) extends AnyVal
 
-  case class MovingTime(val value: Int) extends AnyVal
-
-  case class StationaryTime(val value: Int) extends AnyVal
-
+  case class MovingTime(value: Int) extends AnyVal
 }
 
 
 class ValueClassesExplorationTest extends FunSuite {
-  //???? CHECK:  I thought companion object's members were visible in class.
+  // (Review:  I thought object's members were automatically visible in companion
+  // class, but they weren't in this case.)
   import ValueClassesExplorationTest._
 
 
-  // (Review:  I thought object's members were automatically visible in companion
-  // class, but they weren't in this case.)
+  case class Bundle(origPoi: PoiId, origSp: SpNumber)
+  val somePoi = PoiId(111)
+  val someSpNum = SpNumber(0)
+  var anotherPoi: PoiId = PoiId(0)
 
 
-  test("Demo that value classes provide strong typing for _simple_ parameter passing and assignment.") {
+  test("Strong typing for simple parameter passing and assignment.") {
 
-    case class Bundle(val origPoi: PoiId, val origSp: SpNumber)
+    // Allows correct type:
+    Bundle(somePoi, someSpNum)
+    anotherPoi = somePoi
 
-    val somePoi = PoiId(111)
-    val someSpNum = SpNumber(0)
-
-    val rightOrder = Bundle(somePoi, someSpNum)
-
-    // Trying to compile:
-    //   val x2 = Bundle(someSpNum, somePoi)
-    // yields:
-    //   Error:(...) type mismatch;
+    // Catches wrong value type (of same underlying type):
+    "Bundle(someSpNum, somePoi)" shouldNot typeCheck
+    "anotherPoi = someSpNum" shouldNot typeCheck
+    // Error:(...) type mismatch;
     //    found   : com.savi.spark.app.summarizer.TypeExplorationTest.SpNumber
     //    required: com.savi.spark.app.summarizer.TypeExplorationTest.PoiId
-    //       val x2 = Bundle(someSpNum, somePoi)
-    //                       ^
-    "val wrongOrder = Bundle(someSpNum, somePoi)" shouldNot typeCheck
 
-    var curPoi: PoiId = PoiId(0)
-    curPoi = somePoi
-    // Trying to compile this yields error similar to above.
-    "curPoi = someSpNum" shouldNot typeCheck
+    // Catches wrong non-value type (underlying value type):
+    "Bundle(42, someSp, 42)" shouldNot typeCheck
+    "anotherPoi = 42" shouldNot typeCheck
+    // Error:(...) type mismatch;
+    //    found   : Int(42)
+    //    required: com.us.dsb.explore.types.strong.ValueClassesExplorationTest.PoiId
   }
 
 
-
-  test("Demo that value classes don't seem good for ???.") { //???? NO; for expressions(?) (other than paramter passing and assignment)
-    val MOVING_TIME_THRESHOLD = MovingTime(45)
-    val movingTime = MovingTime(60)
-    val movingTime2 = MovingTime(60)
-    val stationaryTime = StationaryTime(30)
-
-    // Unfortunately, equality comparison is not type checked.
-    //
-    // Worse, it compiles/ but always returns false.
-    //
-
-    assertResult(true)(movingTime == movingTime2)
-    assertResult(false)(movingTime == MOVING_TIME_THRESHOLD)
-    //assertResult(false)(stationaryTime == MOVING_TIME_THRESHOLD)  //?? No error; only warning.
-    //assertResult(false)(stationaryTime == 123)  //?? No error; only warning.
+  val MOVING_TIME_THRESHOLDxx = MovingTime(45)
+  val movingTime1 = MovingTime(30)
+  val movingTime2 = MovingTime(60)
+  val spNumber = SpNumber(30)
 
 
-    // Unfortunately, not type checked.  However, with warnings on, compiler
-    // says:
-    //   Warning:(...) comparing values of types com.savi.spark.app.summarizer.TypeExplorationTest.MovingTime and Int using `==' will always yield false
-    //      println(movingTime == 60)
-    //                             ^
-    //?????println(movingTime == 60)
-    //?????println(movingTime == 61)
+  test("NO strong typing for equality comparisions.") {
 
+    // Allows correct tupe:
+    assertResult(true)(movingTime1 == movingTime1)
+    assertResult(false)(movingTime1 == movingTime2)
 
-    // Integer methods are not available at least not automically (or any other
-    // simple way I've found):
-    "if (movingTime >= MOVING_TIME_THRESHOLD) { /*...*/ }" shouldNot compile
-    // That yields:
-    //   Error:(...) value >= is not a member of com.savi.spark.app.summarizer.TypeExplorationTest.MovingTime
-
-
-
-
-    // Unfortunately, not type checked.  However, with warnings on, compiler
-    // says:
-    //   Warning:(...) comparing values of types com.savi.spark.app.summarizer.TypeExplorationTest.MovingTime and Int using `==' will always yield false
-    //      println(movingTime == 60)
-    //                             ^
-    //?????println(movingTime == 60)
-    //?????println(movingTime == 61)
-
-    //movingTime.value
-
-
-
-
-    //  Shoot--number operations aren't visible (automatically
-    //val movingTime2 = movingTime - movingTime
+    // Fails to catch wrong type (worse, it always returns false).
+    assertResult(false)(spNumber == movingTime1)
+    assertResult(false)(spNumber == 30)              // !
+    assertResult(false)(spNumber == spNumber.value)  // !
+    // If warnings enabled:
+    // "Warning:(...) comparing case class values of types ... SpNumber and
+    //   MovingTime using `==' will always yield false
   }
 
+
+  test("NO operations of underlying type available (sometimes good).") {
+
+    "movingTime1 - movingTime1" shouldNot compile
+    "movingTime1 * movingTime1" shouldNot compile
+    "movingTime1 < movingTime1" shouldNot compile
+    // "Error:(...) value < is not a member of ... MovingTime"
+
+  }
 
 
 }
