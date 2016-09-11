@@ -16,6 +16,11 @@ object ValueClassesExplorationTest {
 }
 
 
+/**
+  * ... shows that value classes are good for strong typing with simple parameter
+  * passing and assignment, but not good for strong typing with operations in
+  * expressions ...
+  */
 class ValueClassesExplorationTest extends FunSuite {
   // (Review:  I thought object's members were automatically visible in companion
   // class, but they weren't in this case.)
@@ -50,13 +55,13 @@ class ValueClassesExplorationTest extends FunSuite {
   }
 
 
-  val MOVING_TIME_THRESHOLDxx = MovingTime(45)
+  val MOVING_TIME_THRESHOLD = MovingTime(45)
   val movingTime1 = MovingTime(30)
   val movingTime2 = MovingTime(60)
   val spNumber = SpNumber(30)
 
 
-  test("NO strong typing for equality comparisions.") {
+  test("NO strong typing for equality comparisons.") {
 
     // Allows correct tupe:
     assertResult(true)(movingTime1 == movingTime1)
@@ -74,12 +79,28 @@ class ValueClassesExplorationTest extends FunSuite {
 
   test("NO operations of underlying type available (sometimes good).") {
 
-    "movingTime1 - movingTime1" shouldNot compile
+    "movingTime1 - movingTime1" shouldNot compile  // (_does_ not)
     "movingTime1 * movingTime1" shouldNot compile
     "movingTime1 < movingTime1" shouldNot compile
     // "Error:(...) value < is not a member of ... MovingTime"
-
   }
+
+  test("Need explicit unwrapping (and wrapping).") {
+    assertResult(true)(movingTime1.value == movingTime1.value)
+    assertResult(false)(movingTime1.value == movingTime2.value)
+
+
+    assertResult(false)(true)
+
+    assertResult(true)(spNumber.value == movingTime1.value)
+    assertResult(true)(spNumber.value == 30)              //
+    assertResult(true)(spNumber.value == spNumber.value)  //
+    movingTime1.value - movingTime1.value
+    movingTime1.value * movingTime1.value
+    assertResult(false)(movingTime1.value < movingTime1.value)
+    val movingTime3: MovingTime = MovingTime(movingTime1.value + movingTime2.value)
+  }
+
 
 
 }
