@@ -12,9 +12,9 @@ object DoorState2ExplApp extends App {
   trait Closed extends OpennessState
 
   trait Door[state <: OpennessState] {
-    // (State-changing methods are not static (not on Door object). */
-    def open[state <: Closed]() = Door[Open]
-    def close[state <: Open]() = Door[Closed]
+    // (State-changing methods are not static (not on Door companion object). */
+    def open[gatingState <: Closed]() = Door[Open]
+    def close[gatingState <: Open]() = Door[Closed]
   }
   object Door {
     /** Can create in either Open or Closed state. */
