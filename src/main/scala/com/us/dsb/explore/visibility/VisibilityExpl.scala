@@ -4,7 +4,7 @@ package com.us.dsb.explore.visibility
 class VisibilityExpl {
 
   class C {
-    def classMember: Unit = {}
+    def classMember(): Unit = {}
 
     // Companion object member:
 
@@ -12,17 +12,16 @@ class VisibilityExpl {
     //objectMember
 
     // - visible by qualified name (as usual/as elsewhere):
-    C.objectMember
+    C.objectMember()
 
     // - visible by simple name after import (as usual/as elsewhere):
 
     import C._
-    objectMember
+    objectMember()
   }
   object C {
-    def objectMember: Unit = {}
-    new C.classMember
-
+    def objectMember(): Unit = {}
+    (new C).classMember()
   }
 
 
