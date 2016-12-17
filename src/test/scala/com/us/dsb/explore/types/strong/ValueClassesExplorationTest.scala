@@ -12,7 +12,11 @@ object ValueClassesExplorationTest {
 
   case class SpNumber(value: Int) extends AnyVal
 
-  case class MovingTime(value: Int) extends AnyVal
+  case class MovingTime(value: Int) extends AnyVal {
+    // println() - does not compile:
+    // "Error:(16, 12) this statement is not allowed in value class"
+  }
+
 }
 
 
@@ -35,18 +39,18 @@ class ValueClassesExplorationTest extends FunSuite {
 
   test("Strong typing for simple parameter passing and assignment.") {
 
-    // Allows correct type:
+    // Allows correct type (same value class):
     Bundle(somePoi, someSpNum)
     anotherPoi = somePoi
 
-    // Catches wrong value type (of same underlying type):
+    // Catches wrong type--different value class of same underlying type):
     "Bundle(someSpNum, somePoi)" shouldNot typeCheck
     "anotherPoi = someSpNum" shouldNot typeCheck
     // Error:(...) type mismatch;
     //    found   : com.savi.spark.app.summarizer.TypeExplorationTest.SpNumber
     //    required: com.savi.spark.app.summarizer.TypeExplorationTest.PoiId
 
-    // Catches wrong non-value type (underlying value type):
+    // Catches wrong type--type underlying value class:
     "Bundle(42, someSp, 42)" shouldNot typeCheck
     "anotherPoi = 42" shouldNot typeCheck
     // Error:(...) type mismatch;
@@ -63,7 +67,7 @@ class ValueClassesExplorationTest extends FunSuite {
 
   test("NO strong typing for equality comparisons.") {
 
-    // Allows correct tupe:
+    // Allows correct type:
     assertResult(true)(movingTime1 == movingTime1)
     assertResult(false)(movingTime1 == movingTime2)
 
@@ -77,30 +81,42 @@ class ValueClassesExplorationTest extends FunSuite {
   }
 
 
-  test("NO operations of underlying type available (sometimes good).") {
+  test("No operations from underlying type (sometimes good, sometimes not).") {
 
-    "movingTime1 - movingTime1" shouldNot compile  // (_does_ not)
-    "movingTime1 * movingTime1" shouldNot compile
-    "movingTime1 < movingTime1" shouldNot compile
+    // Does not ~inherit operations of underlying type:
+    "movingTime1 + movingTime2" shouldNot compile  // (_does_ not)
+    "movingTime1 * movingTime1" shouldNot compile  // (_does_ not)
+    "movingTime1 < movingTime1" shouldNot compile  // (_does_ not)
     // "Error:(...) value < is not a member of ... MovingTime"
   }
 
-  test("Need explicit unwrapping (and wrapping).") {
+
+  test("Need explicit unwrapping/wrapping for operations (except ==).") {
+
+    movingTime1.value + movingTime2.value
+    movingTime1.value * movingTime1.value
+    movingTime1.value < movingTime1.value
+
     assertResult(true)(movingTime1.value == movingTime1.value)
     assertResult(false)(movingTime1.value == movingTime2.value)
 
-
-    assertResult(false)(true)
-
-    assertResult(true)(spNumber.value == movingTime1.value)
-    assertResult(true)(spNumber.value == 30)              //
-    assertResult(true)(spNumber.value == spNumber.value)  //
-    movingTime1.value - movingTime1.value
-    movingTime1.value * movingTime1.value
-    assertResult(false)(movingTime1.value < movingTime1.value)
     val movingTime3: MovingTime = MovingTime(movingTime1.value + movingTime2.value)
+
+    assertResult(true)(spNumber.value == 30)
+    assertResult(false)(spNumber.value == 31)
   }
 
+  test("(Can't be local classes.)") {
+    "case class MovingTime(value: Int) extends AnyVal" shouldNot compile  // (_does_ not)
+    // "Error:(...) value class may not be a local class
+  }
 
+  test("(Can't have constructor (statements).)") {
+    // See comment in MovingTime.
+  }
+
+  test("(Can't be subclassed.)") {
+     // Value classe is final.  Also, as case class, can't extend another case class.
+  }
 
 }
