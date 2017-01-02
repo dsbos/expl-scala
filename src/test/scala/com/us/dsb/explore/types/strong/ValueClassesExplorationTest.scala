@@ -106,10 +106,14 @@ class ValueClassesExplorationTest extends FunSuite {
     assertResult(false)(spNumber.value == 31)
   }
 
-  test("(Can't be local classes.)") {
-    "case class MovingTime(value: Int) extends AnyVal" shouldNot compile  // (_does_ not)
+  /* NOTE: assertDoesNotCompile doesn't work (on this) for 2.10.
+  test("(Can't be local classes.) [assertDoesNotCompile doesn't work for 2.10]") {
+    assertDoesNotCompile("case class MovingTime1(value: Int) extends AnyVal")
+    "case class MovingTime2(value: Int) extends AnyVal" shouldNot compile  // (_does_ not)
     // "Error:(...) value class may not be a local class
   }
+  */
+
 
   test("(Can't have constructor (statements).)") {
     // See comment in MovingTime.
