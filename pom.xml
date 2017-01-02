@@ -16,19 +16,23 @@
   </licenses>
 
   <properties>
-    <maven.compiler.source>1.8</maven.compiler.source>
-    <maven.compiler.target>1.8</maven.compiler.target>
-    <encoding>UTF-8</encoding>
     <!--
-    <scala.version>2.10.4</scala.version>
-    <scala.compat.version>2.10</scala.compat.version>
     -->
+      <scala.version>2.10.4</scala.version>
+      <scala.compat.version>2.10</scala.compat.version>
+    <!--
+    <scala.version>2.10.5</scala.version>
+    <scala.compat.version>2.10</scala.compat.version>
     <scala.version>2.11.8</scala.version>
     <scala.compat.version>2.11</scala.compat.version>
-    <!--
     <json4s.version>3.2.10</json4s.version>
     -->
     <json4s.version>3.4.0</json4s.version>
+    <!--
+    -->
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+    <encoding>UTF-8</encoding>
   </properties>
 
   <dependencies>
@@ -43,34 +47,14 @@
       <version>${scala.version}</version>
     </dependency>
     <dependency>
+      <groupId>org.scala-lang</groupId>
+      <artifactId>scala-swing</artifactId>
+      <version>${scala.version}</version>
+    </dependency>
+    <dependency>
       <groupId>org.scalaz</groupId>
       <artifactId>scalaz-core_${scala.compat.version}</artifactId>
-      <version>7.1.0</version>
-    </dependency>
-    <!-- Test -->
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.11</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.specs2</groupId>
-      <artifactId>specs2-core_${scala.compat.version}</artifactId>
-      <version>2.4.16</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.scalatest</groupId>
-      <artifactId>scalatest_${scala.compat.version}</artifactId>
-      <version>3.0.0</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.specs2</groupId>
-      <artifactId>specs2-junit_${scala.compat.version}</artifactId>
-      <version>2.4.16</version>
-      <scope>test</scope>
+      <version>7.1.0</version>  <!--7.1.0: 2014-08-01 -->
     </dependency>
 
     <dependency>
@@ -83,14 +67,14 @@
       <version>${json4s.version}</version>
     </dependency>
 
-    <dependency>
-      <!-- org.json4s.* (371)  -->
+    <!--dependency>
+      <!- - org.json4s.* (371)  - ->
       <groupId>org.json4s</groupId>
       <artifactId>json4s-ast_${scala.compat.version}</artifactId>
       <version>${json4s.version}</version>
-    </dependency>
+    </dependency-->
     <dependency>
-      <!-- org.json4s.native.* (49)-->
+      <!-- org.json4s.native.* (49) -->
       <groupId>org.json4s</groupId>
       <artifactId>json4s-native_${scala.compat.version}</artifactId>
       <version>${json4s.version}</version>
@@ -102,6 +86,31 @@
       <version>${json4s.version}</version>
     </dependency>
 
+    <!-- Test -->
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.12</version>  <!-- 4.12: 2014-12-04 -->
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.specs2</groupId>
+      <artifactId>specs2-core_${scala.compat.version}</artifactId>
+      <version>3.8.6</version> <!-- 3.8.6: 2016-11-02 -->
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.scalatest</groupId>
+      <artifactId>scalatest_${scala.compat.version}</artifactId>
+      <version>3.0.1</version>  <!-- 3.0.1: 2016-11-09 -->
+      <scope>test</scope>
+    </dependency>
+    <!--dependency>
+      <groupId>org.specs2</groupId>
+      <artifactId>specs2-junit_${scala.compat.version}</artifactId>
+      <version>2.4.16</version>
+      <scope>test</scope>
+    </dependency-->
   </dependencies>
 
   <build>
