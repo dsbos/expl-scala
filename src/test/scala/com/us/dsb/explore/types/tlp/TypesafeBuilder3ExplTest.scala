@@ -102,13 +102,14 @@ class TypesafeBuilder3ExplTest extends FunSuite {
       this.copy(start = Some(start))
     }
 
-    // (Can set end iff not already set.)
+    // (Can set end iff neither end nor length already set.)
     def withEnd(end: Double)(implicit state: S#IsEndSet || S#IsLengthSet =:= BoolFalse): RangeBuilder[S {type IsEndSet = BoolTrue}] = {
       // (Don't need to check at value level whether end is already set.)
       // (also set third if first is already set)
       this.copy(end = Some(end))
     }
 
+    // (Can set length iff neither length nor end already set.)
     def withLength(length: Double)(implicit state: S#IsLengthSet || S#IsEndSet =:= BoolFalse): RangeBuilder[S {type IsLengthSet = BoolTrue}] = {
       // (check if length already set (explicitly))
       // (also set third if first is already set)
