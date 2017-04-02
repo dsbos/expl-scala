@@ -148,9 +148,9 @@ class Json4sObjectMappingExplTest extends FunSuite {
   }
   class Tree4Child(t4c_cp1: Int, @transient t4c_cp2: Int )
 
-  val tree4Obj = new Tree4Root(new IntValueClass(1),
-                               new IntNonvalueClass(2),
-                               StringValueClass("three"), new Tree4Child(4, 5))
+  val tree4Obj = Tree4Root(new IntValueClass(1),
+                           new IntNonvalueClass(2),
+                           StringValueClass("three"), new Tree4Child(4, 5))
   tree4Obj.t4r_pubVar = 4
 
   test("??w/value classes: ??Demo: Default ser. of case class ignores non-constr.-param. fields (and non-field constr. params.).") {

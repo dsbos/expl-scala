@@ -31,10 +31,10 @@ object DrawExplApp extends App {
       println("Panel paint; size = " + size)
       println("Panel paint; bounds = " + bounds)
       println("Panel paint; g.getClipBounds() = " + g.getClipBounds())
-      println("Panel paint; g.getTransform() = " + g.getTransform())
+      println("Panel paint; g.getTransform() = " + g.getTransform)
       g.transform(blockRot)
 
-      var blockView = g.getTransform().createTransformedShape(blockShape)
+      var blockView = g.getTransform.createTransformedShape(blockShape)
 
 //g.getTransform.createTransformedShape()
 

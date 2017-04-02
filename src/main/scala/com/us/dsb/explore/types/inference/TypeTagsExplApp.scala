@@ -47,7 +47,7 @@ object TypeTagsExplApp {
     assert(class2 == class3)
     assert(class3 == class4)
 
-    val anyFirstMatch /*: Option[GeneralThing]*/ = things.filter(obj => class1.isInstance(obj)).headOption
+    val anyFirstMatch /*: Option[GeneralThing]*/ = things.find(obj => class1.isInstance(obj))
     println(s"anyFirstMatch = $anyFirstMatch (${anyFirstMatch.getClass})")
 
     anyFirstMatch.map(o => {
