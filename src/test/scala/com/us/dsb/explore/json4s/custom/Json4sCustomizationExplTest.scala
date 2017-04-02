@@ -12,7 +12,7 @@ import org.scalatest.Matchers._
 
 /**
   * JSON4S notes:
-  * - (Normally), fields from (primary) constructor parametere are serialized
+  * - (Normally), fields from (primary) constructor parameters are serialized
   *   (per case-class vs. non-case-class/val/var rules).
   * - Normally, other fields are not serialized.
   * - With FieldSerializer, other fields are serialized.

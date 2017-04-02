@@ -120,7 +120,7 @@ class ValueClassesExplorationTest extends FunSuite {
   }
 
   test("(Can't be subclassed.)") {
-     // Value classe is final.  Also, as case class, can't extend another case class.
+     // Value class is final.  Also, as case class, can't extend another case class.
   }
 
 }

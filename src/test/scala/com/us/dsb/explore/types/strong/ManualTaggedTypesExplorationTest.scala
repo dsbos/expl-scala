@@ -62,7 +62,7 @@ class ManualTaggedTypesExplorationTest extends FunSuite {
    // val b6: TypeBInt = tag1[TypeAInt](4)
 
 
-    // ???? Look into scalaz verstino
+    // ???? Look into scalaz version
 
   }
 

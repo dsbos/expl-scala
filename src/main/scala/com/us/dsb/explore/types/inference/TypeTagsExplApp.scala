@@ -80,7 +80,7 @@ object TypeTagsExplApp {
     // Doesn't compile
     // getThingViaClassTag.get.someMethod()
     // Does type required/implied by use of an expression (SpecificThingTwo
-    // implied by .someMethod())) not propagate down to intepretation of that
+    // implied by .someMethod())) not propagate down to interpretation of that
     // expression (getThingViaClassTag.get)?
   }
 

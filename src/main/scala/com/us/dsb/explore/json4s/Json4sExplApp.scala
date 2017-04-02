@@ -62,7 +62,7 @@ case class MappingException
  *   - merge?
  * - extracting objects from JSON (JValues)
  *   - non-custom (e.g., case classes)
- *   - DefaultRormats
+ *   - DefaultFormats
  *   - custom objects (e.g., non-case classes)
  *   - custom property/field mappings
  * - "serializing"  (What exactly)
@@ -163,7 +163,7 @@ object Json4sExplApp extends App {
     val xmp23Jvalue2 = JsonMethods.render(xmp23GenObjs1) // impl. map2jvalue
     println("xmp23Jvalue2 = " + xmp23Jvalue2)
     
-    // NOTE: Doesn't seem to handle Map of heterogenous values:
+    // NOTE: Doesn't seem to handle Map of heterogeneous values:
     val xmp24GenObjs1 = Map("A" -> 65, "B" -> 1.1)
     println("xmp24GenObjs1 = " + xmp24GenObjs1)
     //val xmp24Jvalue1 = JsonMethods.render(map2jvalue(xmp24GenObjs1))
@@ -242,7 +242,7 @@ object Json4sExplApp extends App {
 
 
 
-  //??? What is relationship betweem extract and read?
+  //??? What is relationship between extract and read?
 
 
   //org.json4s.jackson.JsonMethods.extr
