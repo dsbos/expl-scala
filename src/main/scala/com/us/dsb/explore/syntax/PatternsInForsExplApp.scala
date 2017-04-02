@@ -1,7 +1,9 @@
 package com.us.dsb.explore.syntax
 
 
-/** Re patterns is for loop/comprehensions. */
+/**
+  *  Re patterns in for loop/comprehensions.
+  */
 object PatternsInForsExplApp extends App {
 
   /*
