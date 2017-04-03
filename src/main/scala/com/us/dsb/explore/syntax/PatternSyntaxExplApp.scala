@@ -8,6 +8,52 @@ object PatternSyntaxExplApp extends App {
 
 
   /*
+     Pattern grammar entry points and references:
+     - Pattern:  by CaseClause
+     - Pattern1: by Generator (twice) from for loops/comprehensions
+     - Pattern2: by PatDef from "val" and "var" variable definitions
+
+     Pattern grammar:
+
+       Pattern         ::=  Pattern1 { ‘|’ Pattern1 }
+       Pattern1        ::=  varid ‘:’ TypePat
+                         |  ‘_’ ‘:’ TypePat
+                         |  Pattern2
+       Pattern2        ::=  id [‘@’ Pattern3]
+                         |  Pattern3
+       Pattern3        ::=  SimplePattern
+                         |  SimplePattern {id [nl] SimplePattern}
+       SimplePattern   ::=  ‘_’
+                         |  varid
+                         |  Literal
+                         |  StableId
+                         |  StableId ‘(’ [Patterns] ‘)’
+                         |  StableId ‘(’ [Patterns ‘,’] [id ‘@’] ‘_’ ‘*’ ‘)’
+                         |  ‘(’ [Patterns] ‘)’
+                         |  XmlPattern
+       Patterns        ::=  Pattern {‘,’ Patterns}
+
+       TypePat         ::=  Type
+
+
+    varid           ::=  lower idrest
+    Literal         ::= ...
+    Type            ::= ....
+
+    StableId        ::=  id
+                      |  Path ‘.’ id
+                      |  [id ‘.’] ‘super’ [ClassQualifier] ‘.’ id
+    Path            ::=  StableId
+                      |  [id ‘.’] this
+    ClassQualifier  ::= ‘[’ id ‘]’
+
+
+
+
+   */
+
+
+  /*
     Patterns in value/variable declarations/definitions:
 
     - Dcl and Def down to PatDef (to Pattern2):
@@ -34,39 +80,11 @@ object PatternSyntaxExplApp extends App {
                       --   and wildcard/boundvarid make no sense _at_the_top_level_
                       --   for declarations), _but_ ... nested ...
 
-    - Patterns:
 
-    Pattern         ::=  Pattern1 { ‘|’ Pattern1 }
-    Pattern1        ::=  boundvarid ‘:’ TypePat
-                      |  ‘_’ ‘:’ TypePat
-                      |  Pattern2
-    Pattern2        ::=  id [‘@’ Pattern3]
-                      |  Pattern3
-    Pattern3        ::=  SimplePattern
-                      |  SimplePattern {id [nl] SimplePattern}
-    SimplePattern   ::=  ‘_’
-                      |  varid
-                      |  Literal
-                      |  StableId
-                      |  StableId ‘(’ [Patterns] ‘)’
-                      |  StableId ‘(’ [Patterns ‘,’] [id ‘@’] ‘_’ ‘*’ ‘)’
-                      |  ‘(’ [Patterns] ‘)’
-                      |  XmlPattern
-    Patterns        ::=  Pattern {‘,’ Patterns}
+    ...             ::=  PostfixExpr ‘match’ ‘{’ CaseClauses ‘}’
+    CaseClauses     ::=  CaseClause {CaseClause}
+    CaseClause      ::=  ‘case’ Pattern [Guard] ‘=>’ Block
 
-    TypePat         ::=  Type
-
-
-    varid           ::=  lower idrest
-    Literal         ::= ...
-    Type            ::= ....
-
-    StableId        ::=  id
-                      |  Path ‘.’ id
-                      |  [id ‘.’] ‘super’ [ClassQualifier] ‘.’ id
-    Path            ::=  StableId
-                      |  [id ‘.’] this
-    ClassQualifier  ::= ‘[’ id ‘]’
   */
 
 
