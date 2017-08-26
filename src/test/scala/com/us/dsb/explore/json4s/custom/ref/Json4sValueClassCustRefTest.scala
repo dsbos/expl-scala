@@ -39,7 +39,7 @@ case class Root(val time: TimeIntValueClass,
 
 
 //noinspection CaseClassParam
-class Json4sObjectMappingRefTest extends FunSuite {
+class Json4sValueClassCustRefTest extends FunSuite {
 
   val tree4Obj2 = Root(TimeIntValueClass(11),
                        Some(TimeIntValueClass(12)),
