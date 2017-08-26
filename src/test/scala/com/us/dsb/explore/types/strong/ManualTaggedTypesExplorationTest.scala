@@ -3,70 +3,117 @@ package com.us.dsb.explore.types.strong
 import org.scalatest.FunSuite
 import org.scalatest.Matchers._
 
-
+/**
+  * Demo test of tagged types of <what?) form (old Scalaz form).
+  */
 class ManualTaggedTypesExplorationTest extends FunSuite {
 
-  test("Tagged ...") {
-    type Tagged[U] = { type Tag = U }
+  test("Tagged types in old form should ...") {
+
+
+    ////////////////////////////////////////
+    // Feature-implementation code (base; see more below):
+
+    /**
+      * ~: Something that is tagged with a (tagging/semantic) type.
+      * (Type constructor that makes type with type member named Tag that is
+      * alias for type parameter.)
+      * @tparam  U  the type that tags the thing
+      */
+    type Tagged[U] = {
+      /**
+        * The tagging type.
+        * (Type alias.)
+        * (Name is not used anywhere.)
+        */
+      type Tag = U
+    }
+
+    /**
+      * Something that is of some (data) type tagged with some (semantic) type.
+      * (Type constructor that makes type that is (subclass of) the data type
+      * and is (~subclass of) type with type member Tag that is alias of the
+      * semantic type, and that type-erases to the data type.)
+      * @tparam  T  the data type
+      * @tparam  U  the tagging type
+      */
     type @@[T, U] = T with Tagged[U]
 
-    trait TypeA
-    trait TypeB
-
-    type TypeAInt = Int @@ TypeA
-    type TypeBInt = Int @@ TypeB
 
     ////////////////////////////////////////
-    // Strong typing at simple assignment:
-    val a1: TypeAInt = 1.asInstanceOf[TypeAInt]
-    val a1b: TypeAInt = a1
-    "val b1: TypeBInt = a1" shouldNot compile
-    "val a2: TypeAInt = 2" shouldNot compile
-
-
-    ////////////////////////////////////////
-    // Weak typing in unconstrained expression:
-    val notA2 /* : Int */ = a1 + a1
-
-    val b2 = 2.asInstanceOf[TypeBInt]
-    a1 + b2
+    // Feature-use code (part 1):
 
     ////////////////////
-    // Weak typing in <what kind?> expression:
-    if (a1 > b2) {}
+    // Tagged-type declarations:
+
+    // Semantic types for kinds of things.
+    trait ThingA
+    trait ThingB
+
+    // Representation types (tagged data types) of kinds of things.
+    // (Subclass of Int; ~subclass of ~tag-attaching type with respective
+    // tagging type; erases to Int.)
+    type ThingAInt = Int @@ ThingA
+    type ThingBInt = Int @@ ThingB
+    // (Could simultaneously have "type ThingAString = String @@ ThingA".)
+
+    ////////////////////
+    // Strong typing at assignment and parameter association:
+
+    val a0: ThingAInt = 1.asInstanceOf[ThingAInt]
+    val b0: ThingBInt = 2.asInstanceOf[ThingBInt]
+
+    val a1: ThingAInt = a0
+    //val a2: ThingAInt = b0
+    " val a2: ThingAInt = b0" shouldNot typeCheck
+    //val a3: ThingAInt = 1
+    " val a3: ThingAInt = 1" shouldNot typeCheck
+
+    def f(a: ThingAInt) = ()
+    f(a0)
+    //f(b0)
+    "f(b0) " shouldNot typeCheck
+
+    ////////////////////
+    // Tagged-type expr. can be used as data-type expr., but methods do not propagate type:
+    val i1: Int = a0
+    1 + a0
+    a0 + a0
+    //val a4: ThingAInt = a0 + a0  // type is only Int, not ThingAInt
+    " val a4: ThingAInt = a0 + a0" shouldNot typeCheck
+
+
+    ////////////////////
+    // Weak typing elsewhere (because of substitutability just above):
+    if (a0 > b0) {}
+    a0 + b0          // and type is Int, not ThingAInt
+
 
     ////////////////////////////////////////
-    // Broken (useless) typing in constrained expression:
-    // ("a1 + a1" gets type Int (not TypeAInt), which can't be assigned to a2.)
-    "val a2: TypeAInt = a1 + a1" shouldNot compile // (well, _does_ not)
-
+    // Feature-implementation code (part 2):
 
     // For reducing ".asInstanceOf[...]" syntax:
 
-    class Taggerxx[U] {
-      def apply[T](t : T) : T @@ U = t.asInstanceOf[T @@ U]
+    class Tagger[U] {  //????? REVISIT re "object" in Scalaz
+      def apply[T](t: T): T @@ U = t.asInstanceOf[T @@ U]
     }
-    def tagxx[U] = new Taggerxx[U]
+    def tag[U] = new Tagger[U]  //???? REVISIT re allocating objects
 
-    val b5xx = tagxx[TypeB](6)
-    val b6xx: TypeBInt = b5xx
-    val b7xx: Int @@ TypeB = b5xx
-    //??? Why not?  Is like b6 = expression from b5.   (Says found Int(6), required: Int.):
-    //val b8: TypeBInt = tag[TypeB](6)
+    ////////////////////////////////////////
+    // Feature-use code (part 2):
 
+    val a11: ThingAInt = 11.asInstanceOf[ThingAInt]
 
-    def tag1xx[Reprxx, Txx](bxx: Reprxx): Reprxx @@ Txx = bxx.asInstanceOf[Reprxx @@ Txx]
+    val a12 = tag[ThingA](12)     // IDE says type is @@[Int, ThingA] (~= ThingAInt)
+    val a13: ThingAInt = a12
 
-    //???? val b10: TypeBInt = tag1(4)
+    // Scala 2.10 compiler bug?:
+    //val t1: ThingAInt = tag[ThingA](12)       // "type mismatch ... Int(12) ... Int"! Huh?
+    //val t2: ThingAInt = tag[ThingA](12: Int)  // "type mismatch ... Int ... Int"! Huh?
+    //val t3: ThingAInt = tag[ThingA](1 + 1)    // "type mismatch ... Int(2) ... Int"! Huh?
 
-   // val b6: TypeBInt = tag1[TypeAInt](4)
-
-
-    // ???? Look into scalaz version
-
+    // Try:
+    // def tag2[Repr, U](v: Repr): Repr @@ U = v.asInstanceOf[Repr @@ U]
   }
-
-
-
 
 }
