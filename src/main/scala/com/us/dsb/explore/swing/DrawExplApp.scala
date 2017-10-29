@@ -1,7 +1,5 @@
 package com.us.dsb.explore.swing
 
-import com.sun.tools.internal.xjc.ModelLoader
-
 import java.awt.{BasicStroke, Color, Dimension}
 import java.awt.geom.{AffineTransform, Ellipse2D, Rectangle2D}
 import scala.swing.BorderPanel.Position
