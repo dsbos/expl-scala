@@ -2,7 +2,8 @@ package com.us.dsb.explore.json4s
 
 import org.json4s.{DateFormat, DefaultFormats, FieldSerializer, Formats, JValue}
 import org.json4s.JsonAST.{JField, JObject}
-import org.json4s.jackson.JsonMethods
+//import org.json4s.jackson.JsonMethods
+import org.json4s.native.JsonMethods
 
 
 //import org.json4s._

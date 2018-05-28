@@ -87,8 +87,8 @@ class Json4sObjectMappingExplTest extends FunSuite {
         println(f"- propName: $propName%-10s, value: $value (${value.getClass})")
 
         value match {
-          case x: WrappedInt =>
-            Some((propName, x.value))
+          case x: WrappedInt =>   // ?? TODO: Does this ever match (re erasure)?
+            Some((propName, x.value)) 
           case x =>
             Some((propName, x))
         }
