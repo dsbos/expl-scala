@@ -2,7 +2,8 @@ package com.us.dsb.explore.json4s
 
 import org.json4s.{DateFormat, DefaultFormats, FieldSerializer, Formats, JValue}
 import org.json4s.JsonAST.{JField, JObject}
-import org.json4s.jackson.JsonMethods
+//import org.json4s.jackson.JsonMethods
+import org.json4s.native.JsonMethods
 
 
 //import org.json4s._
@@ -76,7 +77,7 @@ object Json4sExplApp extends App {
   ///////////////////
   // Input:  Specific class objects
   {
-    import org.json4s.jackson.Serialization
+    // ?? import org.json4s.jackson.Serialization
 
     /*case*/ class Something(val f1: String, f2: SomethingElse) {
       val f3: Int = 123
@@ -104,8 +105,8 @@ object Json4sExplApp extends App {
     implicit val formats2 = DefaultFormats /*+
         FieldSerializer[Something](renameTo("f3", "fThree"), renameFrom("f3", "3f")) +
         FieldSerializer[SomethingElse](renameTo("e3", "eThree"), renameFrom("e3", "3e"))*/
-    val xmp51JsonStr2: String = Serialization.write(xmp51Objs)
-    println("xmp51JsonStr2 = " + xmp51JsonStr2)
+    // ?? val xmp51JsonStr2: String = Serialization.write(xmp51Objs)
+    // ?? println("xmp51JsonStr2 = " + xmp51JsonStr2)
 
     /*
 
