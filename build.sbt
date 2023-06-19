@@ -2,8 +2,7 @@ name := "expl-scala"
 
 version := "0.1"
 
-scalaVersion := "2.13.10"
-//???? Q: how to insert below in scala-parallel-collections, etc.?
+scalaVersion := "2.13.11"
 
  // https://medium.com/@awesomeorji/sbt-for-the-absolute-beginner-2-settings-and-tasks-6f3b00be1a81
 
