@@ -21,7 +21,6 @@
 
 # from SBT:
 /project/target
-/project/build.properties
 /buildFirst/target
 
 # from IntelliJ? SBT?:
