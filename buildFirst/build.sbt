@@ -12,6 +12,6 @@ scalacOptions += "-feature"
 
 libraryDependencies ++= Seq(
 
-  "eu.timepit"  %% "refined"                 % "0.9.28",
+  "eu.timepit"  %% "refined" % "0.11.0",
 )
 

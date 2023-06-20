@@ -101,30 +101,32 @@ libraryDependencies ++= Seq(
   //"org.scala-lang.modules" %% "scala-parser-combinators" % <version>
   //"org.scala-lang.modules" %% "scala-parallel-collections" % "???",
 
-  "org.scalatest" %% "scalatest" % "3.2.14" % Test,
-  //"org.scalatest" %% "scalatest" % "3.2.14",  // Not just in src/test
+  "org.scalatest" %% "scalatest" % "3.2.16" % Test,
+  //"org.scalatest" %% "scalatest" % "3.2.16",  // Not just in src/test
   //"org.scalactic" %% "scalactic" % "3.2.10"
 
-  "junit" % "junit" % "4.13.1" % Test,
-  "org.specs2" %% "specs2-junit" % "4.11.0" % Test,
+  "junit" % "junit" % "4.13.2" % Test,
+  "org.specs2" %% "specs2-junit" % "4.20.0" % Test,
 
   //"org.specs2" %% "specs2-core_2.12" % "3.9.4" % Test,
   //"org.specs2" %% "specs2-junit_2.12" % "3.9.4" % Test,
 
+  // Enumerations
+  "com.beachape" %% "enumeratum" % "1.7.2",
 
-  "org.json4s" %% "json4s-core"   % "3.6.11",  // 3.7.x?, 4.x?
-  "org.json4s" %% "json4s-native" % "3.6.11",  // 3.7.x?, 4.x?
-  "org.json4s" %% "json4s-jackson" % "3.6.11",  // 3.7.x?, 4.x?
-  //"org.json4s" %% "json4s-ast" % "3.6.11",  // 3.7.x?, 4.x?
+  "org.json4s" %% "json4s-core"   % "4.0.6",   // 3.7.x?, 4.x?
+  "org.json4s" %% "json4s-native" % "4.0.6",   // 3.7.x?, 4.x?
+  "org.json4s" %% "json4s-jackson" % "4.0.6",  // 3.7.x?, 4.x?
+  //"org.json4s" %% "json4s-ast" % "4.0.6",    // 3.7.x?, 4.x?
 
-  "io.circe" %% "circe-core" % "0.14.1",
-  //("io.circe" %% "circe-derivation" % "0.14.1",)
-  "io.circe" %% "circe-generic" % "0.14.1",
-  //"io.circe" %% "circe-generic-extras" % "0.14.1",
-  "io.circe" %% "circe-literal" % "0.14.1",
-  "io.circe" %% "circe-jawn" % "0.14.1",
+  "io.circe" %% "circe-core" % "0.14.5",
+  //("io.circe" %% "circe-derivation" % "0.14.5",)
+  "io.circe" %% "circe-generic" % "0.14.5",
+  //"io.circe" %% "circe-generic-extras" % "0.14.5",
+  "io.circe" %% "circe-literal" % "0.14.5",
+  "io.circe" %% "circe-jawn" % "0.14.5",
   "io.circe" %% "circe-optics" % "0.14.1",
-  "io.circe" %% "circe-parser" % "0.14.1",
+  "io.circe" %% "circe-parser" % "0.14.5",
 
 
   // NOTE:  Can't use both latest scalatest-argonaut (0.2.5) and
@@ -137,16 +139,16 @@ libraryDependencies ++= Seq(
 
   "com.stephenn" %% "scalatest-circe" % "0.2.5" % Test,
   "com.stephenn" %% "scalatest-json-jsonassert" % "0.2.5" % Test,
-  "com.stephenn" %% "scalatest-json4s" % "0.2.0" % Test,
+  "com.stephenn" %% "scalatest-json4s" % "0.2.5" % Test,
   "com.stephenn" %% "scalatest-play-json" % "0.2.5" % Test,
   "com.stephenn" %% "scalatest-argonaut" % "0.2.5" % Test,
   "com.stephenn" %% "scalatest-jsoniter-scala" % "0.2.5" % Test,
 
-  "com.softwaremill.diffx" %% "diffx-scalatest-should" % "0.7.0" % Test,
+  "com.softwaremill.diffx" %% "diffx-scalatest-should" % "0.8.3" % Test,
 
   // Stronger types:  newtypes and refine's refinement types
-  "io.estatico" %% "newtype"             % "0.4.3",
-  "eu.timepit"  %% "refined"                 % "0.10.1",
+  "io.estatico" %% "newtype"             % "0.4.4",
+  "eu.timepit"  %% "refined"                 % "0.11.0",
   //"eu.timepit"  %% "refined"                 % "0.9.28",/
   //"eu.timepit"  %% "refined-cats"            % "0.9.28", // optional
   //"eu.timepit"  %% "refined-eval"            % "0.9.28", // optional, JVM-only
@@ -159,17 +161,14 @@ libraryDependencies ++= Seq(
   //"eu.timepit"  %% "refined-shapeless"       % "0.9.28", // optional
   // try circe ~adapter
 
-  "org.typelevel"  %% "cats-core"           % "2.1.0",
+  "org.typelevel"  %% "cats-core"           % "2.9.0",
   "org.typelevel"  %% "cats-free"           % "2.9.0",
   // "org.typelevel"  %% "cats-effect"         % "2.1.0",
-
-  "org.scalaz" %% "scalaz-core" % "7.3.5",
-
-
   "com.github.cb372" %% "cats-retry" % "2.1.0",
-  // "org.typelevel"  %% "squants"  % "1.6.0",
 
+  "org.scalaz" %% "scalaz-core" % "7.3.7",
 
+  "org.typelevel"  %% "squants"  % "1.8.3",
 
   "org.tpolecat" %% "doobie-core" % "0.13.4",
   //"org.tpolecat" %% "doobie-postgres" % "0.13.4",
@@ -197,8 +196,7 @@ libraryDependencies ++= Seq(
 
   //"org.jline" %% "jline" % "3.12.3",
   //"org.scala-lang" % "jline" % "2.10.7",
-
-)
+  )
 
 
 lazy val buildFirst = (project in file("buildFirst"))
